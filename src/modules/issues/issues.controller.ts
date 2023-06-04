@@ -5,8 +5,8 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Patch,
   Post,
-  Put,
   Query,
 } from '@nestjs/common';
 
@@ -26,7 +26,7 @@ export class IssuesController {
     return this.issuesService.create(newIssue);
   }
 
-  @Put(':id/status')
+  @Patch(':id/status')
   updateIssueStatus(
     @Param('id') id: number,
     @Body('status') status: IssueStatus,
@@ -40,7 +40,7 @@ export class IssuesController {
     return this.issuesService.updateIssueStatus(id, status);
   }
 
-  @Put(':id/priority')
+  @Patch(':id/priority')
   updateIssuePriority(
     @Param('id') id: number,
     @Body('priority') priority: IssuePriority,
