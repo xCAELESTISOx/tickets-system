@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 
 import { GetIssuesListParams, IssuesListDTO } from './dto/issuesList.dto';
@@ -16,6 +17,7 @@ import { CreateIssueDTO } from './dto/createIssue.dto';
 import { IssuesService } from './issues.service';
 
 import { Issue, IssuePriority, IssueStatus } from './issue.enity';
+import { AuthGuard } from 'utils/guards/AuthGuard';
 
 @Controller('issues')
 export class IssuesController {
@@ -26,6 +28,7 @@ export class IssuesController {
     return this.issuesService.create(newIssue);
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id/status')
   updateIssueStatus(
     @Param('id') id: number,
@@ -40,6 +43,7 @@ export class IssuesController {
     return this.issuesService.updateIssueStatus(id, status);
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id/priority')
   updateIssuePriority(
     @Param('id') id: number,
@@ -54,11 +58,13 @@ export class IssuesController {
     return this.issuesService.updateIssuePriority(id, priority);
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.issuesService.findOne(id);
   }
 
+  @UseGuards(AuthGuard)
   @Get()
   findAll(@Query() params: GetIssuesListParams): Promise<IssuesListDTO> {
     return this.issuesService.findAll(params);

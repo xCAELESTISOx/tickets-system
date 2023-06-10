@@ -16,7 +16,7 @@ import { AuthModule } from './modules/auth/auth.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: '../attends-bd',
+      database: '../issues-bd',
       entities: ['./modules/*/*.entity.ts'],
       autoLoadEntities: true,
       logging: true,

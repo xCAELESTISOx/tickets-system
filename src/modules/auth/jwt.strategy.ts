@@ -15,12 +15,14 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(private usersService: UsersService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
       secretOrKey: JWT_SECRET_KEY,
     });
   }
 
   async validate(payload: JwtPayload) {
     const { email } = payload;
+
     const user = await this.usersService.findOne({ email });
 
     if (!user) {

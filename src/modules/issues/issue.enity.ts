@@ -9,7 +9,7 @@ import {
 export enum IssuePriority {
   LOW = 'LOW',
   MEDIUM = 'MEDIUM',
-  HIGH = 'MEDIUM',
+  HIGH = 'HIGH',
 }
 
 export enum IssueStatus {

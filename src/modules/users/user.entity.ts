@@ -18,7 +18,7 @@ export class User {
   @Column()
   lastname: string;
 
-  @Column({ default: UserRole.UNCONFIRMED })
+  @Column({ default: UserRole.UNCONFIRMED, enum: UserRole })
   role: UserRole;
 
   @Column({ unique: true })

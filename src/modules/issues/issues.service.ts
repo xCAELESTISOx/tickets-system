@@ -57,8 +57,13 @@ export class IssuesService {
   }
 
   //
-  findOne(id: number): Promise<Issue> {
-    return this.issuesRepository.findOneBy({ id });
+  async findOne(id: number): Promise<Issue> {
+    const issue = await this.issuesRepository.findOneBy({ id });
+
+    if (!issue)
+      throw new HttpException('Issue is not found', HttpStatus.NOT_FOUND);
+
+    return issue;
   }
 
   //

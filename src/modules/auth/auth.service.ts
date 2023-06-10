@@ -1,18 +1,18 @@
 import {
   ConflictException,
   HttpException,
+  HttpStatus,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
+import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { SignInDTO } from './dto/signIn.dto';
 import { CreateUserDTO } from '../users/dto/createUser.dto';
 import { JWT_SECRET_KEY } from '../../consts';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../users/user.entity';
-import { Repository } from 'typeorm';
+import { User, UserRole } from '../users/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -55,7 +55,16 @@ export class AuthService {
       ...userData,
       password: hashedPassword,
     });
-    return await this.usersRepository.save(user);
+    const newUser = await this.usersRepository.save(user);
+
+    if (newUser.id == 1) {
+      await this.usersRepository.update(newUser.id, {
+        role: UserRole.SUPERADMIN,
+      });
+      newUser.role = UserRole.SUPERADMIN;
+    }
+
+    return newUser;
   }
 
   /**  */
@@ -84,6 +93,6 @@ export class AuthService {
       }
     }
 
-    throw new UnauthorizedException();
+    throw new HttpException('No such user found', HttpStatus.BAD_REQUEST);
   }
 }
