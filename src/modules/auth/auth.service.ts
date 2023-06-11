@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
-import { SignInDTO } from './dto/signIn.dto';
+import { SignInDTO, SignInParams } from './dto/signIn.dto';
 import { CreateUserDTO } from '../users/dto/createUser.dto';
 import { JWT_SECRET_KEY } from '../../consts';
 import { User, UserRole } from '../users/user.entity';
@@ -68,10 +68,10 @@ export class AuthService {
   }
 
   /**  */
-  async signIn(userData: SignInDTO): Promise<string> {
+  async signIn(userData: SignInParams): Promise<SignInDTO> {
     const user = await this.usersRepository.findOne({
       where: { email: userData.email },
-      select: ['password', 'id'],
+      select: ['password', 'id', 'role'],
     });
 
     // Check if the user exists
@@ -89,7 +89,7 @@ export class AuthService {
           { secret: JWT_SECRET_KEY },
         );
 
-        return token;
+        return { token, role: user.role };
       }
     }
 
