@@ -14,6 +14,17 @@ export class UsersService {
     private readonly usersRepository: Repository<User>,
   ) {}
 
+  findAll(): Promise<User[]> {
+    const allowedRoles = Object.keys(UserRole).filter(
+      (role) => role !== UserRole.SUPERADMIN,
+    );
+
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .where('user.role IN (:...allowedRoles)', { allowedRoles })
+      .getMany();
+  }
+
   async confirmUser(id: number): Promise<User> {
     const user = await this.usersRepository.findOneBy({ id });
 

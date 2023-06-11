@@ -3,11 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import 'reflect-metadata';
 
-// import { DisciplinesModule } from './modules/disciplines/disciplines.module';
-// import { GroupsModule } from './modules/groups/groups.module';
-// import { LessonsModule } from './modules/lessons/lessons.module';
-// import { SkipsModule } from './modules/skips/skips.module';
-// import { AuthModule } from './modules/auth/auth.module';
 import { IssuesModule } from './modules/issues/issues.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
@@ -28,11 +23,6 @@ import { AuthModule } from './modules/auth/auth.module';
     AuthModule,
     IssuesModule,
     UsersModule,
-    // GroupsModule,
-    // DisciplinesModule,
-    // LessonsModule,
-    // SkipsModule,
-    // AuthModule,
   ],
 })
 export class AppModule {}

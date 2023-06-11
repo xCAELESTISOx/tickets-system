@@ -15,6 +15,26 @@ export class IssuesService {
   ) {}
 
   //
+  async findAll(params: GetIssuesListParams): Promise<IssuesListDTO> {
+    const { title, limit = 50, page = 1 } = params;
+    const skip = limit * (page - 1);
+
+    let queryBuilder = this.issuesRepository.createQueryBuilder('issue');
+
+    if (title)
+      queryBuilder = queryBuilder.where('issue.title like :title', {
+        title: `%${title}%`,
+      });
+
+    const [data, totalCount] = await queryBuilder
+      .skip(skip)
+      .take(limit)
+      .getManyAndCount();
+
+    return { data, meta: { totalCount } };
+  }
+
+  //
   create(newIssue: CreateIssueDTO): Promise<Issue> {
     const issueInstance = this.issuesRepository.create(newIssue);
     return this.issuesRepository.save(issueInstance);
@@ -64,25 +84,5 @@ export class IssuesService {
       throw new HttpException('Issue is not found', HttpStatus.NOT_FOUND);
 
     return issue;
-  }
-
-  //
-  async findAll(params: GetIssuesListParams): Promise<IssuesListDTO> {
-    const { title, limit = 50, page = 1 } = params;
-    const skip = limit * (page - 1);
-
-    let queryBuilder = this.issuesRepository.createQueryBuilder('issue');
-
-    if (title)
-      queryBuilder = queryBuilder.where('issue.title like :title', {
-        title: `%${title}%`,
-      });
-
-    const [data, totalCount] = await queryBuilder
-      .skip(skip)
-      .take(limit)
-      .getManyAndCount();
-
-    return { data, meta: { totalCount } };
   }
 }

@@ -16,6 +16,12 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @UseGuards(RoleGuard(UserRole.SUPERADMIN))
+  @Get()
+  findAll(): Promise<User[]> {
+    return this.usersService.findAll();
+  }
+
+  @UseGuards(RoleGuard(UserRole.SUPERADMIN))
   @Patch(':id/confirm')
   confirmUser(@Param('id') id: number): Promise<User> {
     return this.usersService.confirmUser(id);
