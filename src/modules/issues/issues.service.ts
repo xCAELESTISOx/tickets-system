@@ -16,7 +16,7 @@ export class IssuesService {
 
   //
   async findAll(params: GetIssuesListParams): Promise<IssuesListDTO> {
-    const { title, limit = 50, page = 1 } = params;
+    const { title, limit = 50, page = 1, status, priority } = params;
     const skip = limit * (page - 1);
 
     let queryBuilder = this.issuesRepository.createQueryBuilder('issue');
@@ -24,6 +24,16 @@ export class IssuesService {
     if (title)
       queryBuilder = queryBuilder.where('issue.title like :title', {
         title: `%${title}%`,
+      });
+
+    if (status)
+      queryBuilder = queryBuilder.andWhere('issue.status = :status', {
+        status,
+      });
+
+    if (priority)
+      queryBuilder = queryBuilder.andWhere('issue.priority = :priority', {
+        priority,
       });
 
     const [data, totalCount] = await queryBuilder
