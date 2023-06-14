@@ -22,9 +22,12 @@ export class IssuesService {
     let queryBuilder = this.issuesRepository.createQueryBuilder('issue');
 
     if (title)
-      queryBuilder = queryBuilder.where('issue.title like :title', {
-        title: `%${title}%`,
-      });
+      queryBuilder = queryBuilder.where(
+        'LOWER(issue.title) like LOWER(:title)',
+        {
+          title: `%${title}%`,
+        },
+      );
 
     if (status)
       queryBuilder = queryBuilder.andWhere('issue.status = :status', {
