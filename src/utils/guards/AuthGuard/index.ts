@@ -41,7 +41,6 @@ export class AuthGuard implements CanActivate {
     });
 
     if (!user) throw new UnauthorizedException();
-    console.log(user);
 
     if (user.role === UserRole.UNCONFIRMED)
       throw new HttpException(

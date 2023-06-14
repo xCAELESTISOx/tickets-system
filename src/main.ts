@@ -6,7 +6,6 @@ import 'reflect-metadata';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
-
   app.enableCors();
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 

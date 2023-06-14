@@ -55,6 +55,10 @@ export class UsersService {
     return newUser;
   }
 
+  async deleteUnconfirmed() {
+    return this.usersRepository.delete({ role: UserRole.UNCONFIRMED });
+  }
+
   async findOne(params: FindUserDTO): Promise<User | null> {
     const user = await this.usersRepository.findOne({ where: params });
     return user;

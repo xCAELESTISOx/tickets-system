@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -19,6 +20,12 @@ export class UsersController {
   @Get()
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
+  }
+
+  @Delete('/unconfirmed')
+  @UseGuards(RoleGuard(UserRole.SUPERADMIN))
+  deleteUnconfirmed() {
+    return this.usersService.deleteUnconfirmed();
   }
 
   @UseGuards(RoleGuard(UserRole.SUPERADMIN))
