@@ -6,46 +6,56 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+// Возможные значения приоритета тикета
 export enum IssuePriority {
-  LOW = 'LOW',
-  MEDIUM = 'MEDIUM',
-  HIGH = 'HIGH',
+  LOW = 'LOW', // Несрочно
+  MEDIUM = 'MEDIUM', // Некритично
+  HIGH = 'HIGH', // Критично
 }
 
+// Возможные значения статуса тикета
 export enum IssueStatus {
-  BACKLOG = 'BACKLOG',
-  IN_PROGRESS = 'IN_PROGRESS',
-  IN_TESTING = 'IN_TESTING',
-  RESOLVED = 'RESOLVED',
-  CANCELED = 'CANCELED',
+  BACKLOG = 'BACKLOG', // Бэклог
+  IN_PROGRESS = 'IN_PROGRESS', // В процесс
+  IN_TESTING = 'IN_TESTING', // На тестировании
+  RESOLVED = 'RESOLVED', // Готово
+  CANCELED = 'CANCELED', // Отменено
 }
 
+// Описание сущности Тикета в БД
+// Для полей настраивается тип данных, дефолтные значения
+// и доп параметры вроде Primary Key и автоматически устанавливающейся даты
+// при обновлении или создании записи
 @Entity()
 export class Issue {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number; // ID тикета
 
   @Column()
-  title: string;
+  title: string; // Заголовок тикета (краткое описание)
 
   @Column()
-  description: string;
+  description: string; // Подробное описание тикета
 
   @Column()
-  reporterEmail: string;
+  reporterEmail: string; // Имейл баг-репортера
 
   @Column()
-  reporterName: string;
+  reporterName: string; // Имя баг-репортера
 
   @Column({ default: IssuePriority.LOW, enum: IssuePriority })
+  // Приоритет тикета
+  // Дефолтный приоритет – Низкий (LOW)
   priority: IssuePriority;
 
   @Column({ default: IssueStatus.BACKLOG, enum: IssueStatus })
+  // Статус тикета
+  // Дефолтный статус – бэклог (BACKLOG)
   status: IssueStatus;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt: Date; // Дата создания тикета
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt: Date; // Дата последнего обновления тикета
 }

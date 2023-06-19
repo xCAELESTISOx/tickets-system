@@ -1,10 +1,11 @@
+// Описание данных, необходимых для входа в систему
 export class SignInParams {
-  /** Hashed password */
-  password: string;
-  email: string;
+  email: string; // логин
+  password: string; // пароль
 }
 
+// Описание данных, возвращаемых при логине
 export class SignInDTO {
-  token: string;
-  role: string;
+  token: string; // Токен
+  role: string; // Роль
 }

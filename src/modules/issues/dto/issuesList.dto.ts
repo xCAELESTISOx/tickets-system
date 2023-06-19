@@ -1,6 +1,7 @@
 import { Pagination } from 'modules/utiles/types';
 import { Issue, IssuePriority, IssueStatus } from '../issue.enity';
 
+// Параметры фильтрации и пагинации списка тикетов
 export class GetIssuesListParams {
   title?: string;
   status?: IssueStatus;
@@ -9,7 +10,8 @@ export class GetIssuesListParams {
   page?: number;
 }
 
+// Класс, описывающий тип возвращаемых данных для списка тикетов
 export class IssuesListDTO {
-  data: Issue[];
-  meta: Pagination;
+  data: Issue[]; // Сам список тикетов
+  meta: Pagination; // Метаданные (пагинация)
 }

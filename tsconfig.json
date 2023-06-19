@@ -1,3 +1,5 @@
+// Конфиг TypeScript для статической типизации JavaScript
+// Создается автоматически при создании проекта
 {
   "compilerOptions": {
     "module": "commonjs",
