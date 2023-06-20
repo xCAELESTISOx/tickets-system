@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { IssuesModule } from './modules/issues/issues.module';
@@ -6,6 +6,7 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 
 import 'reflect-metadata';
+import { RewriteApiEndpointMiddleware } from 'utils/RewriteUrl';
 
 // Настройка модулей приложения
 @Module({
@@ -28,4 +29,10 @@ import 'reflect-metadata';
     UsersModule, // Модключение модуля пользователей
   ],
 })
-export class AppModule {}
+// Главный (корневой) модуль приложения
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    // Подключение мидлвара (прослойки) для редиректов
+    consumer.apply(RewriteApiEndpointMiddleware).forRoutes('/');
+  }
+}
